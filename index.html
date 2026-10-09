@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D.E.N.S.O Cortex Agent</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Tinh chỉnh các biểu tượng hệ thống dạng chuẩn basic (không emoji/sticker) */
+  .sys-icon { width: 32px; height: 32px; border-radius: 6px; background: #eef2f8; border: 1px solid var(--line); display: grid; place-items: center; color: var(--navy); font-size: 13px; font-weight: 600; }
+  .sys-icon.big { width: 44px; height: 44px; font-size: 18px; border-radius: 8px; }
+  .clip-btn { border: none; background: transparent; cursor: pointer; font-size: 16px; padding: 4px 6px; color: var(--muted); }
+  .clip-btn:hover { color: var(--navy); }
+</style>
+</head>
+<body>
+<div class="app">
+ 
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo"><b>DENSO</b><span>Crafting the Core</span></div>
+    <nav>
+      <a class="active" href="#" data-page="Dashboard">Dashboard</a>
+      <a href="#" data-page="Tài liệu kỹ thuật">Tài liệu kỹ thuật</a>
+      <a href="#" data-page="Tra cứu tri thức">Tra cứu tri thức</a>
+      <a href="#" data-page="Knowledge Graph">Knowledge Graph</a>
+      <a href="#" data-page="Lịch sử chat">Lịch sử chat</a>
+    </nav>
+    <div class="side-foot">
+      Better Mobility<br>for a Brighter Future
+      <b>DENSO</b>
+    </div>
+  </aside>
+ 
+  <div class="main">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="brand">
+        <h1>D.E.N.S.O Cortex Agent</h1>
+        <p>AI Assistant for Technical Knowledge & Manufacturing</p>
+      </div>
+      <label class="search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input id="searchInput" type="search" placeholder="Tìm kiếm tài liệu, mã lỗi, linh kiện...">
+      </label>
+      <button class="bell" id="bell" aria-label="Thông báo">🔔<i id="notiCount" hidden>0</i></button>
+      <div class="user">
+        <span class="avatar">NV</span>
+        <div><b id="userName">Tên người dùng</b><small id="userRole">Chức vụ - Phòng ban</small></div>
+      </div>
+    </header>
+ 
+    <div class="content">
+      <!-- CỘT TRÁI -->
+      <section class="left">
+        <div class="crumb">Dashboard <span>›</span> Tra cứu tài liệu</div>
+        <h2>Chi tiết tài liệu kỹ thuật</h2>
+ 
+        <div class="card file-head">
+          <div class="pdf-ico">PDF</div>
+          <div class="file-info">
+            <b id="fileName">—</b>
+            <div class="meta">
+              <div><small>Hệ thống</small><span id="fileDept">—</span></div>
+              <div><small>Phiên bản</small><span id="fileSource">—</span></div>
+              <div><small>Ngày cập nhật</small><span id="fileDate">—</span></div>
+            </div>
+          </div>
+          <!-- Nút Tải tài liệu basic đồng bộ -->
+          <button class="btn primary-btn" id="openOriginal" disabled style="display:inline-flex; align-items:center; gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Tải tài liệu
+          </button>
+        </div>
+ 
+        <div class="card viewer" id="viewer">
+          <div class="v-body">
+            <div class="thumbs" id="thumbs"></div>
+            <div class="page" id="pageView">
+              <p class="empty">Chưa có tài liệu hiển thị.</p>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="info-row">
+          <div class="card info">
+            <h3>Vị trí nguồn</h3>
+            <strong id="srcPage">—</strong>
+            <small id="srcFile">—</small>
+            <button class="btn" style="margin-top: 4px;" disabled>Đánh dấu vị trí</button>
+          </div>
+          <div class="card info">
+            <h3>Độ tin cậy</h3>
+            <strong id="confidence">—%</strong>
+            <div class="bar"><i id="confBar" style="width:0%"></i></div>
+            <small>Chờ dữ liệu hệ thống</small>
+          </div>
+          <div class="card info">
+            <h3>Tài liệu liên quan</h3>
+            <strong id="relCountText" style="font-size: 15px; color: var(--blue);">0 tài liệu</strong>
+            <small>Liên quan</small>
+            <button class="btn" style="margin-top: 4px;" disabled>Xem danh sách</button>
+          </div>
+        </div>
+ 
+        <div class="bottom-row">
+          <div class="card kg">
+            <h3>Knowledge Graph</h3>
+            <div class="kg-canvas" id="kgCanvas">
+              <p class="empty">Chưa có dữ liệu đồ thị tri thức.</p>
+            </div>
+          </div>
+          <div class="card related">
+            <h3>Liên kết tài liệu (<span id="relCount">0</span>)</h3>
+            <ul id="relList">
+              <li class="empty">Chưa có tài liệu liên quan.</li>
+            </ul>
+            <a href="#" class="more">Xem tất cả →</a>
+          </div>
+        </div>
+      </section>
+ 
+      <!-- CỘT PHẢI: CHAT AI -->
+      <section class="chat card">
+        <div class="chat-head">
+          <div class="sys-icon">AI</div>
+          <div><b>DENSO AI Agent</b><span class="status"><i></i>Đang hoạt động</span></div>
+          <button class="btn primary-btn" id="newChat">＋ Tạo phiên mới</button>
+        </div>
+        
+        <div class="messages" id="messages">
+          <div class="empty-chat">
+            <div class="sys-icon big" style="margin: 0 auto 6px auto;">AI</div>
+            <b>Xin chào, tôi có thể giúp gì?</b>
+            <p>Nhập mã lỗi, tên thiết bị hoặc câu hỏi kỹ thuật để bắt đầu.</p>
+          </div>
+        </div>
+
+        <div id="chips" style="padding: 0 16px; display: flex; gap: 6px; flex-wrap: wrap;"></div>
+
+        <form class="composer" id="chatForm">
+          <div class="row">
+            <button type="button" class="clip-btn" id="attachBtn" title="Tải tệp lên">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+            </button>
+            <input id="chatInput" type="text" placeholder="Nhập câu hỏi về kỹ thuật..." autocomplete="off">
+            <button class="send" aria-label="Gửi">➤</button>
+          </div>
+          <small>Hỗ trợ các định dạng: văn bản, hình ảnh, mã lỗi, linh kiện...</small>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- Thẻ input file ẩn -->
+<input type="file" id="filePicker" multiple style="display: none;">
+
+<script src="java.js"></script>
+</body>
+</html>

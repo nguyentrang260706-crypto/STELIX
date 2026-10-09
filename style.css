@@ -1,0 +1,147 @@
+:root{--red:#d6001c;--navy:#0b1f4d;--navy2:#13306e;--blue:#1f5fd6;--bg:#eef2f8;--card:#fff;--line:#dfe6f1;--text:#16233b;--muted:#7a869c}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;} /* Khóa cuộn trang chính, chỉ cho phép nội dung bên trong tự cuộn */
+body{font:13px/1.45 "Segoe UI",system-ui,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:var(--blue);text-decoration:none}
+
+.app{display:flex;height:100vh;width:100vw;overflow:hidden;}
+
+/* 1. CỐ ĐỊNH SIDEBAR BÊN TRÁI TUYỆT ĐỐI */
+.sidebar{
+  width:200px;
+  flex:none;
+  background:linear-gradient(180deg,#0e2250,#081532);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:1000;
+}
+
+/* Logo DENSO ở trên cùng, vừa khít sát mép */
+.logo{
+  background:#fff;
+  padding:10px 16px;
+  height:60px;
+  flex:none;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.logo b{display:block;color:var(--red);font:italic 800 22px/1 Arial,sans-serif;letter-spacing:-1px}
+.logo span{color:#1b2a4d;font-size:11px;margin-top:2px;}
+
+.sidebar nav{padding:16px 10px;display:grid;gap:6px}
+.sidebar nav a{padding:10px 12px;border-radius:8px;color:#dbe4f7;font-size:13px;display:flex;align-items:center;gap:8px}
+.sidebar nav a.active{background:var(--red);color:#fff;font-weight:600}
+
+/* 2. CHÂN TRANG SIDEBAR KHỚP ĐÁY VỪA KHÍT */
+.side-foot{
+  margin-top:auto; /* Đẩy phần này xuống sát đáy màn hình */
+  padding:16px;
+  font-size:11px;
+  color:#cdd8ee;
+  background:rgba(0,0,0,0.2);
+  flex:none;
+}
+.side-foot b{display:block;margin-top:6px;color:var(--red);font:italic 800 16px Arial}
+
+/* 3. PHẦN NỘI DUNG BÊN PHẢI (Được đẩy lề sang để không bị sidebar che) */
+.main{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  margin-left:200px; /* Chừa đúng khoảng trống cho Sidebar cố định */
+  height:100vh;
+  overflow:hidden;
+}
+
+.topbar{display:flex;align-items:center;gap:20px;background:#fff;padding:10px 24px;border-bottom:1px solid var(--line);height:68px;flex:none;}
+.brand h1{font-size:16px;color:var(--navy);font-weight:700}
+.brand p{font-size:11px;color:var(--muted)}
+.search{flex:1;max-width:420px;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:0 12px;height:36px;margin-left:20px;background:#fcfdff}
+.search input{border:0;outline:0;flex:1;min-width:0;background:none;font-size:13px}
+.bell{position:relative;margin-left:auto;border:0;background:#f4f7fc;width:36px;height:36px;border-radius:50%;font-size:16px;display:grid;place-items:center}
+.bell i{position:absolute;top:2px;right:2px;background:var(--red);color:#fff;font:600 9px/14px sans-serif;width:14px;height:14px;border-radius:50%;text-align:center}
+.user{display:flex;align-items:center;gap:10px;border-left:1px solid var(--line);padding-left:15px}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px}
+.user b{display:block;font-size:12px}.user small{color:var(--muted);font-size:10px}
+
+/* Vùng chứa nội dung cuộn bên trong (cột trái và cột phải) */
+.content{
+  flex:1;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 520px;
+  gap:16px;
+  padding:16px;
+  overflow-y:auto; /* Cho phép cuộn độc lập bên trong phần nội dung */
+}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px}
+.muted,small{color:var(--muted);font-size:11px}
+.empty{color:var(--muted);text-align:center;font-size:12px}
+.btn{border:1px solid var(--line);background:#f4f7fc;color:var(--navy);border-radius:6px;padding:6px 10px;font-size:12px;font-weight:500}
+.primary-btn{background:var(--red);color:#fff;border-color:var(--red)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+
+/* Left Column */
+.left{display:flex;flex-direction:column;gap:12px;min-width:0}
+.crumb{font-size:12px;color:var(--muted)}
+.crumb span{color:var(--navy)}
+.left h2{font-size:18px;color:var(--navy)}
+.file-head{display:flex;align-items:center;gap:12px;padding:12px}
+.pdf-ico{width:32px;height:40px;background:var(--red);color:#fff;font:700 10px/40px sans-serif;text-align:center;border-radius:4px}
+.file-info{flex:1;min-width:0}
+.meta{display:flex;gap:24px;margin-top:4px}
+.meta small{display:block}.meta span{font-size:12px;color:var(--navy);font-weight:500}
+
+.viewer{overflow:hidden}
+.v-body{display:flex;height:320px}
+.thumbs{width:80px;border-right:1px solid var(--line);background:#f7f9fd;overflow:auto;padding:6px;display:grid;gap:6px;align-content:start}
+.page{flex:1;padding:16px;overflow:auto;background:#fff;display:grid;place-items:center}
+
+.info-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.info{padding:12px;display:grid;gap:4px;align-content:start}
+.info h3{font-size:12px;color:var(--navy)}
+.info strong{font-size:15px;color:var(--navy2)}
+.bar{height:5px;background:#e3e9f4;border-radius:4px;overflow:hidden;margin:2px 0}
+.bar i{display:block;height:100%;background:var(--blue)}
+
+.bottom-row{display:grid;grid-template-columns:1.5fr 1fr;gap:12px}
+.kg,.related{padding:12px}
+.kg h3,.related h3{font-size:12px;color:var(--navy);margin-bottom:6px}
+.kg-canvas{height:150px;border:1px dashed var(--line);border-radius:6px;display:grid;place-items:center;background:#fafbfc}
+.related ul{list-style:none;display:grid;gap:6px;min-height:60px;align-content:start}
+.more{display:block;margin-top:6px;font-size:11px;color:var(--blue)}
+
+/* Chat Right Column */
+.chat{display:flex;flex-direction:column;height:calc(100vh - 116px);position:sticky;top:0;overflow:hidden}
+.chat-head{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);flex:none;}
+.chat-head b{display:block;font-size:15px;color:var(--navy)}
+.chat-head .btn{margin-left:auto}
+.status{font-size:11px;color:#12a150;display:flex;align-items:center;gap:4px}
+.status i{width:6px;height:6px;border-radius:50%;background:#12c15f}
+.messages{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:12px;background:#fafbfc}
+.empty-chat{margin:auto;text-align:center;display:grid;gap:6px;justify-items:center;color:var(--muted)}
+.empty-chat b{color:var(--navy);font-size:15px}
+.msg{max-width:90%;padding:10px 12px;border-radius:10px;font-size:13px;line-height:1.4}
+.msg.user{align-self:flex-end;background:#dbe9ff;color:var(--navy)}
+.msg.bot{align-self:flex-start;background:#fff;border:1px solid var(--line);width:100%}
+.msg-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--muted)}
+.fb{display:flex;gap:4px}
+.fb button{background:none;border:0;color:var(--muted);font-size:11px;cursor:pointer}
+
+.composer{padding:10px 16px;border-top:1px solid var(--line);background:#fff;flex:none;}
+.composer .row{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:#fcfdff}
+.composer input{flex:1;border:0;outline:0;padding:6px 0;font-size:13px}
+.clip{border:0;background:none;font-size:18px}
+.send{width:36px;height:34px;border:0;border-radius:6px;background:var(--red);color:#fff;font-size:14px}
+.composer small{display:block;margin-top:4px;font-size:10px;color:var(--muted)}
+
+@media(max-width:1100px){.content{grid-template-columns:1fr}.chat{position:static;height:520px}}
